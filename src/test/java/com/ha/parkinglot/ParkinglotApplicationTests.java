@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ParkinglotApplicationTests {
@@ -57,14 +57,14 @@ class ParkinglotApplicationTests {
 	public void testTicketBooking() {
 		Car car = new Car(Size.MEDIUM, "IN-1234");
 		Ticket ticket = (Ticket) parkingLot.requestParkingSpace(car);
-		assertTrue(ticket.getTicketId() != null);
+        assertNotNull(ticket.getTicketId());
 	}
 
 	@Test
 	public void testParkingSpaceNotAvailable() {
 		Car car = new Car(Size.EXTRALARGE, "IN-1234");
 		Ticket ticket = (Ticket) parkingLot.requestParkingSpace(car);
-		assertTrue(ticket == null);
+        assertNull(ticket);
 	}
 
 	@Test
@@ -72,7 +72,7 @@ class ParkinglotApplicationTests {
 		Car car = new Car(Size.MEDIUM, "IN-1234");
 		Ticket ticket = (Ticket) parkingLot.requestParkingSpace(car);
 		PaymentReceipt paymentReceipt = (PaymentReceipt) parkingLot.checkout(ticket, creditCardPayment);
-		assertTrue(ticket.getTicketId() != null);
+        assertNotNull(ticket.getTicketId());
 		assertTrue(paymentReceipt.getTransactionId().startsWith("CreditCard"));
 		assertTrue(paymentReceipt.getAmount() >= 10.0);
 	}
@@ -85,7 +85,7 @@ class ParkinglotApplicationTests {
 
 		Car anotherCar = new Car(Size.MEDIUM, "IN-4321");
 		List<ITicket> tickets = ticketIssueCounter.bookSlotsForParking(Arrays.asList(slot), car);
-		assertTrue(tickets.size() == 0);
+		assertTrue(tickets.isEmpty());
 	}
 
 	@Test
@@ -97,7 +97,7 @@ class ParkinglotApplicationTests {
 		Car anotherCar = new Car(Size.MEDIUM, "IN-4321");
 		parkingLot.checkout(ticket, creditCardPayment);
 		List<ITicket> tickets = ticketIssueCounter.bookSlotsForParking(Arrays.asList(slot), car);
-		assertTrue(tickets.size() == 1);
-		assertTrue(tickets.get(0).geSlot().getSlotId() == slot.getSlotId());
+        assertEquals(1, tickets.size());
+        assertEquals(tickets.get(0).geSlot().getSlotId(), slot.getSlotId());
 	}
 }

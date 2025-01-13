@@ -7,9 +7,9 @@ import com.ha.parkinglot.interfaces.IParkingCalculator;
 import com.ha.parkinglot.interfaces.ITicket;
 
 public class ParkingChargeCalculator implements IParkingCalculator {
-    private double parkingChargePerMinute;
+    private final double parkingChargePerMinute;
     private double baseCharges;
-    private Map<Size, Double> sizeMultiplier;
+    private final Map<Size, Double> sizeMultiplier;
 
     public ParkingChargeCalculator(double parkingChargePerMinute, double baseCharges, Map<Size, Double> sizeMultiplier) {
         this.baseCharges = baseCharges;
